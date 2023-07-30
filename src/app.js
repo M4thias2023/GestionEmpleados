@@ -28,29 +28,59 @@ app.get("/empleados", (req, res) => {
   });
 });
 
+
 //TRAER UN EMPLEADO
-app.get("/empleados/:id"),
-  (req, res) => {
-    const sql = `SELECT * FROM empleado WHERE id = ${req.params.id}`;
-    db.query(sql, (err, row) => {
-      if (err) throw err;
-      res.json(row);
+app.get('/empleados/:id', (req, res) => {
+    const idEmpleado = req.params.id; // Obtiene el ID del empleado desde los parámetros de la ruta
+  
+    // Verificar que el empleado existe en la base de datos antes de obtenerlo
+    const empleadoQuery = 'SELECT * FROM empleado WHERE idEmpleado = ?';
+    db.query(empleadoQuery, [idEmpleado], (empleadoErr, empleadoResult) => {
+      if (empleadoErr) {
+        console.error(empleadoErr);
+        return res.status(500).json({ error: 'Error al obtener el empleado' });
+      }
+  
+      if (empleadoResult.length === 0) {
+        // El empleado con el ID especificado no existe en la tabla 'empleados'
+        return res.status(404).json({ error: 'El empleado no fue encontrado' });
+      }
+  
+      // Si el empleado existe, se envía como respuesta
+      return res.json(empleadoResult[0]);
     });
-  };
+  });
+
 
 // POST un empleado
-app.post("/empleados", (req, res) => {
-  const sql = "INSERT INTO empleado SET ?";
-  const empleadoObj = {
-    nombre_empleado: req.body.nombre_empleado,
-    nacionalidad: req.body.nacionalidad,
-    cargo: req.body.cargo,
-  };
-  db.query(sql, empleadoObj, (err) => {
-    if (err) throw err;
-    res.send("Empleado creado!");
+app.post('/empleados', (req, res) => {
+    const { nombre, nacionalidad, idCargo } = req.body;
+  
+    // Verificar que el idCargo existe en la tabla 'cargos' antes de registrar el empleado
+    const cargoQuery = 'SELECT idCargo FROM cargos WHERE idCargo = ?';
+    db.query(cargoQuery, [idCargo], (cargoErr, cargoResult) => {
+      if (cargoErr) {
+        console.error(cargoErr);
+        return res.status(500).json({ error: 'Error al verificar el cargo' });
+      }
+  
+      if (cargoResult.length === 0) {
+        // El idCargo no existe en la tabla 'cargos'
+        return res.status(404).json({ error: 'El idCargo no existe en la base de datos' });
+      }
+  
+      // Si el idCargo existe, insertar el empleado en la tabla 'empleados'
+      const insertQuery = 'INSERT INTO empleado ( nombre_empleado, nacionalidad, idCargo) VALUES (?,?,?)';
+      db.query(insertQuery, [nombre, nacionalidad, idCargo], (insertErr, insertResult) => {
+        if (insertErr) {
+          console.error(insertErr);
+          return res.status(500).json({ error: 'Error al registrar el empleado' });
+        }
+  
+        return res.status(201).json({ message: 'Empleado registrado exitosamente' });
+      });
+    });
   });
-});
 
 //ACTUALIZAR UN EMPLEADO, ACTUALIZA EL CARGO QUE VIENE DE LA TABLA CARGOS
 app.put("/empleados/:id", (req, res) => {
@@ -87,12 +117,9 @@ app.get("/cargos", (req, res) => {
 
 // POST un cargo
 app.post("/cargos", (req, res) => {
-  const sql = "INSERT INTO cargos SET ?";
-  const cargoObj = {
-    nombre_cargo: req.body.nombre_cargo,
-    descripcion: req.body.descripcion,
-  };
-  db.query(sql, cargoObj, (err) => {
+    const { nombre_cargo, descripcion } = req.body;
+  const sql = "INSERT INTO cargos (nombre_cargo, descripcion) VALUES (?, ?)";
+  db.query(sql, [nombre_cargo , descripcion], (err) => {
     if (err) throw err;
     res.send("Cargo creado!");
   });
