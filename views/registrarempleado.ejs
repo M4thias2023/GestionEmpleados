@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('header.ejs') -%>
+<body>
+    <%- include('navbar.ejs') -%>
+    <!-- formulario con bootstrap-->
+
+    <form action="/action_page.php" class="p-4">
+        <div class="mb-3 mt-3">
+          <label for="email" class="form-label">Nombre:</label>
+          <input type="text" class="form-control" id="nombre_empleado" placeholder="Ingrese el nombre del empleado" name="email">
+        </div>
+        <div class="mb-3">
+          <label for="pwd" class="form-label">nacionalidad:</label>
+          <input type="text" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+        </div>
+        <div class="mb-3">
+            <label for="pwd" class="form-label">nacionalidad:</label>
+            <input type="text" class="form-control" id="pwd" placeholder="Enter password"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+</body>
+</html>

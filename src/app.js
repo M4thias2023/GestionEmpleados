@@ -34,16 +34,18 @@ db.connect((err) => {
   console.log('Conexión a la base de datos establecida');
 });
 
-//routes
-app.get("/", (req, res) => {
-  res.render("inicio");
-});
 
 app.get("/cargos", (req, res) => {
   res.render("cargos");
 });
 
 app
+  .get("/", (req, res) => {
+    res.render("inicio")
+  })
+  .get("/registrarempleado", (req, res) => {
+    res.render("registrarempleado")
+  })
   // Ruta para mostrar la vista de empleado
   .get("/empleados", empleadoController.getEmpleados)
   .get("/empleados/listar/:id", empleadoController.getEmpleadoById)
