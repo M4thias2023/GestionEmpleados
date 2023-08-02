@@ -43,20 +43,32 @@ app
   .get("/", (req, res) => {
     res.render("inicio")
   })
-  .get("/registrarempleado", (req, res) => {
-    res.render("registrarempleado")
+  .get("/empleados/registrar", empleadoController.getCargos, (req, res) => {
+    const cargos = res.locals.cargos;
+    res.render("registrarempleado", { cargos });
+  })
+  .get("/empleados/actualizar/:id", empleadoController.getCargos, empleadoController.getEmpleadoById, (req, res) => {
+    const { id } = req.params;
+    const cargos = res.locals.cargos;
+    const empleado = res.locals.empleado; // Asegúrate de obtener los datos del empleado
+    res.render("actualizarempleado", { id, empleado, cargos });
   })
   // Ruta para mostrar la vista de empleado
   .get("/empleados", empleadoController.getEmpleados)
   .get("/empleados/listar/:id", empleadoController.getEmpleadoById)
   .post("/empleados/registrar", empleadoController.createEmpleado)
-  .put("/empleados/actualizar/:id", empleadoController.updateEmpleado)
+  .post("/empleados/actualizar/:id", empleadoController.updateEmpleado)
   .get("/empleados/borrar/:id", empleadoController.deleteEmpleado)
   .get("/cargos/listar", cargoController.getCargos)
   .post("/cargos/registrar", cargoController.createCargo)
   .put("/cargos/actualizar/:id", cargoController.updateCargo)
   .get("/cargos/borrar/:id", cargoController.deleteCargo)
 
+
+//error 404
+app.use((req, res, next) => {
+  res.status(404).render("404")
+})
 
 
 

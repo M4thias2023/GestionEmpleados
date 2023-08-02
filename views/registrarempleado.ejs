@@ -4,21 +4,41 @@
 <body>
     <%- include('navbar.ejs') -%>
     <!-- formulario con bootstrap-->
-
-    <form action="/action_page.php" class="p-4">
-        <div class="mb-3 mt-3">
-          <label for="email" class="form-label">Nombre:</label>
-          <input type="text" class="form-control" id="nombre_empleado" placeholder="Ingrese el nombre del empleado" name="email">
+    <style>
+      body{
+        background-color: #333333;
+      }
+      label{
+        font-size: 20px;
+        font-weight: 600;
+        color: #cecece;
+      }
+      input{
+        background-color: #cecece;
+      }
+    </style>
+    
+    <h1 class="p-2 text-white">Registrar Empleado</h1>
+    <form action="/empleados/registrar" class="p-2 w-50 m-2" method="POST" style="border: 2px solid #cecece; border-radius: 10px;">
+        <div class="mb-3">
+          <label for="nombre_empleado" class="form-label">Nombre:</label>
+          <input type="text" class="form-control" id="nombre_empleado" placeholder="Ingrese el nombre" name="nombre_empleado">
         </div>
         <div class="mb-3">
-          <label for="pwd" class="form-label">nacionalidad:</label>
-          <input type="text" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+          <label for="nacionalidad" class="form-label">nacionalidad:</label>
+          <input type="text" class="form-control" id="nacionalidad" placeholder="Ingrese la nacionalidad" name="nacionalidad">
         </div>
         <div class="mb-3">
-            <label for="pwd" class="form-label">nacionalidad:</label>
-            <input type="text" class="form-control" id="pwd" placeholder="Enter password"/>
+          <label for="idCargo" class="form-label">Cargo:</label>
+          <select class="form-select" id="idCargo" name="idCargo" aria-label="Default select example">
+            <option selected>Seleccione un cargo</option>
+            <% cargos.forEach(cargo => { %>
+              <option style="background-color: #333333; color: aliceblue;" value="<%= cargo.idCargo %>"><%= cargo.idCargo %></option>
+            <% }); %>
+          </select>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+        <a href="/empleados" class="btn btn-danger">Cancelar</a>
       </form>
 
 </body>

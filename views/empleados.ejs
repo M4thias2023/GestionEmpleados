@@ -11,7 +11,7 @@
     <%- include('navbar.ejs') -%>
 
     <h1 class="m-2">Lista de empleados</h1>
-    <a class="btn btn-primary m-2" href="/registrarempleado">Registrar empleado</a>
+    <a class="btn btn-primary m-2" href="/empleados/registrar">Registrar empleado</a>
     <div style="padding: 10px; background-color: #252525; margin: 10px;border-radius:5px;">
       <table class="table table-ligth table-striped w-100">
         <thead>
@@ -30,9 +30,9 @@
             <th scope="row"><%= empleado.idEmpleado %></th>
             <td><%= empleado.nombre_empleado %></td>
             <td><%= empleado.nacionalidad %></td>
-            <td><%= empleado.idCargo %></td>
+            <td><%= empleado.nombre_cargo%></td>
             <td>
-              <a href="/empleados/editar/<%= empleado.idEmpleado %>" class="btn btn-warning">Editar</a>
+              <a href="/empleados/actualizar/<%= empleado.idEmpleado %>" class="btn btn-warning">Editar</a>
             </td>
             <td>
               <a onclick="confirmar(<%= empleado.idEmpleado %>)" type="button" class="btn btn-danger">Eliminar</a>

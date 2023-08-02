@@ -57,9 +57,11 @@ const updateCargo = (req, res) => {
 }
 
 
+
+
 module.exports = {
     getCargos,
     createCargo,
     deleteCargo,
-    updateCargo
+    updateCargo,
 }

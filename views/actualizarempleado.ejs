@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('header.ejs') -%>
+<body>
+    <%- include('navbar.ejs') -%>
+    <!-- formulario con bootstrap-->
+    <style>
+      body{
+        background-color: #333333;
+      }
+      label{
+        font-size: 20px;
+        font-weight: 600;
+        color: #cecece;
+      }
+      input{
+        background-color: #cecece;
+      }
+    </style>
+    
+    <h1 class="p-2 text-white">Actualizar Empleado</h1>
+    <form action="/empleados/actualizar/<%=id%>" class="p-2 w-50 m-2" method="POST" style="border: 2px solid #cecece; border-radius: 10px;">
+        <div class="mb-3">
+          <label for="nombre_empleado" class="form-label">Nombre:</label>
+          <input type="text" class="form-control" id="nombre_empleado" placeholder="Ingrese el nombre" name="nombre_empleado" value="<%= empleado.nombre_empleado %>">
+        </div>
+        <div class="mb-3">
+          <label for="nacionalidad" class="form-label">nacionalidad:</label>
+          <input type="text" class="form-control" id="nacionalidad" placeholder="Ingrese la nacionalidad" name="nacionalidad" value="<%= empleado.nacionalidad %>">
+        </div>
+        <div class="mb-3">
+          <label for="idCargo" class="form-label">Cargo:</label>
+          <select class="form-select" id="idCargo" name="idCargo" aria-label="Default select example" value="<%= empleado.idCargo %>">
+            <% cargos.forEach(cargo => { %>
+                <option style="background-color: #333333; color: aliceblue;" value="<%= cargo.idCargo %>" <%= cargo.idCargo === empleado.idCargo ? 'selected' : '' %>><%= cargo.idCargo %></option>
+            <% }); %>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a href="/empleados" class="btn btn-danger">Cancelar</a>
+      </form>
+
+</body>
+</html>
