@@ -1,12 +1,16 @@
+const { default: Swal } = require("sweetalert2");
 const db = require("../database/db");
 
 const getCargos = (req, res) => {
     //consulta a la base de datos
   const sql = "SELECT * FROM cargos";
   //llamado a la base de datos
-  db.query(sql, (err, rows) => {
-    if (err) throw err;
-    res.json(rows);
+  db.query(sql, (err, cargos) => {
+    if (err){
+        console.error(err);
+        return res.status(500).json({ error: "Error al obtener los cargos" });
+    }
+    res.render("cargos", { cargos })
   });
 }
 
@@ -15,36 +19,45 @@ const createCargo = (req, res) => {
   const sql = "INSERT INTO cargos (nombre_cargo, descripcion) VALUES (?, ?)";
   db.query(sql, [nombre_cargo , descripcion], (err) => {
     if (err) throw err;
-    res.send("Cargo creado!");
+    //res.send("Cargo creado!");
+    res.redirect('/cargos');
   });
 }
 
 const deleteCargo = (req, res) => {
-    const idCargo = req.params.idCargo; // Obtiene el ID del cargo desde los parámetros de la ruta
-    // Verificar que el ID del cargo existe en la base de datos antes de eliminarlo
-    const cargoQuery = "SELECT idCargo FROM cargos WHERE idCargo = ?";
-    db.query(cargoQuery, [idCargo], (cargoErr, cargoResult) => {
-    if (cargoErr) {
-        console.error(cargoErr);
-        return res.status(500).json({ error: "Error al verificar el cargo" });
+  const { id } = req.params;
+
+  // Verificar si el cargo está vinculado a algún empleado
+  const empleadoQuery = 'SELECT idEmpleado FROM empleado WHERE idCargo = ?';
+  db.query(empleadoQuery, [id], (empleadoErr, empleadoResult) => {
+      if (empleadoErr) {
+          console.error(empleadoErr);
+          return res.status(500).json({ error: 'Error al verificar los empleados' });
+      }
+
+      if (empleadoResult.length > 0) {
+        // El cargo está vinculado a al menos un empleado
+        return res.status(200).json({ success: false, message: 'El cargo está vinculado a uno o más empleados' });
     }
-    if (cargoResult.length === 0) {
-      // El ID del cargo no existe en la tabla 'cargos'
-        return res
-        .status(404)
-        .json({ error: "El ID del cargo no existe en la base de datos" });
-    }
-    // Eliminar el cargo de la tabla 'cargos' si el ID del cargo existe
-    const deleteQuery = "DELETE FROM cargos WHERE idCargo = ?";
-    db.query(deleteQuery, [idCargo], (deleteErr, deleteResult) => {
-            if (deleteErr) {
-                console.error(deleteErr);
-                return res.status(500).json({ error: "Error al eliminar el cargo" });
-            }
-            return res.status(200).status({ message: "Cargo eliminado" });
-        });
-    });
-}
+
+      // Si el cargo no está vinculado a ningún empleado, proceder a eliminarlo
+      const deleteQuery = 'DELETE FROM cargos WHERE idCargo = ?';
+      db.query(deleteQuery, [id], (err, result) => {
+          if (err) {
+              console.error(err);
+              return res.status(500).json({ error: 'Error al eliminar el cargo' });
+          }
+          
+          if (result.affectedRows === 0) {
+            // No se encontró un cargo con el ID proporcionado
+            return res.status(404).json({ success: false, message: 'El cargo no fue encontrado' });
+        }
+        
+        // Envía una respuesta de éxito si la eliminación fue exitosa
+        return res.status(200).json({ success: true, message: 'El cargo ha sido eliminado exitosamente' });
+      });
+  });
+};
 
 const updateCargo = (req, res) => {
   const { idCargo } = req.params;

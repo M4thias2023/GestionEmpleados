@@ -34,11 +34,6 @@ db.connect((err) => {
   console.log('Conexión a la base de datos establecida');
 });
 
-
-app.get("/cargos", (req, res) => {
-  res.render("cargos");
-});
-
 app
   .get("/", (req, res) => {
     res.render("inicio")
@@ -53,16 +48,19 @@ app
     const empleado = res.locals.empleado; // Asegúrate de obtener los datos del empleado
     res.render("actualizarempleado", { id, empleado, cargos });
   })
+  .get("/cargos/registrar", (req, res) => {
+    res.render("registrocargos");
+  })
   // Ruta para mostrar la vista de empleado
   .get("/empleados", empleadoController.getEmpleados)
   .get("/empleados/listar/:id", empleadoController.getEmpleadoById)
   .post("/empleados/registrar", empleadoController.createEmpleado)
   .post("/empleados/actualizar/:id", empleadoController.updateEmpleado)
   .get("/empleados/borrar/:id", empleadoController.deleteEmpleado)
-  .get("/cargos/listar", cargoController.getCargos)
+  .get("/cargos", cargoController.getCargos)
   .post("/cargos/registrar", cargoController.createCargo)
   .put("/cargos/actualizar/:id", cargoController.updateCargo)
-  .get("/cargos/borrar/:id", cargoController.deleteCargo)
+  .delete("/cargos/borrar/:id", cargoController.deleteCargo)
 
 
 //error 404
