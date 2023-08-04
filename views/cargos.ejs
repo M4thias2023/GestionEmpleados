@@ -10,7 +10,7 @@
     <%- include('navbar.ejs') -%>
     <h1 class="m-2">Lista de Cargos</h1>
     <a class="btn btn-primary m-2" href="/cargos/registrar">Registrar cargo</a>
-    <div style="padding: 10px; background-color: #252525; margin: 10px;border-radius:5px; width: 75%;">
+
         <table class="table table-ligth table-striped w-100">
           <thead>
             <tr>
@@ -37,7 +37,6 @@
             <% }); %>
           </tbody>
         </table>
-      </div>
 
       <script>
         function confirmar(idCargo) {

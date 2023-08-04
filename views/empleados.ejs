@@ -6,15 +6,20 @@
       body {
         background-color: #f5f5f5;
       }
+      h1{
+        background-color: #ebebeb;
+        height: 100px;
+      }
+
     </style>
 
     <%- include('navbar.ejs') -%>
 
-    <h1 class="m-2">Lista de empleados</h1>
+    <h1 class="p-2">Lista de empleados</h1>
     <a class="btn btn-primary m-2" href="/empleados/registrar">Registrar empleado</a>
-    <div style="padding: 10px; background-color: #252525; margin: 10px;border-radius:5px; width: 75%;">
-      <table class="table table-ligth table-striped w-100">
-        <thead>
+
+      <table class="table table-ligth w-75 m-2 ">
+        <thead class="table-dark">
           <tr>
             <th scope="col">ID</th>
             <th scope="col">NOMBRE EMPLEADO</th>
@@ -41,7 +46,6 @@
           <% }); %>
         </tbody>
       </table>
-    </div>
 
     <script>
         function confirmar(idEmpleado) {

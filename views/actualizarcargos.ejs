@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('header.ejs') -%>
+  <body>
+    <%- include('navbar.ejs') -%>
+    <style>
+      body {
+        background-color: #333333;
+      }
+      label {
+        font-size: 20px;
+        font-weight: 600;
+        color: #cecece;
+      }
+      input {
+        background-color: #cecece;
+      }
+    </style>
+
+    <h1 class="p-2 text-white">Actualizar cargo</h1>
+    <form
+        action="/cargos/actualizar/<%=id%>"
+        class="p-2 w-50 m-2"
+        method="POST"
+        style="border: 2px solid #cecece; border-radius: 10px"
+    >
+      <div class="mb-3">
+        <label for="nombre_empleado" class="form-label">Nombre:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombre_empleado"
+          placeholder="Ingrese el nombre"
+          name="nombre_cargo"
+          value="<%= cargo.nombre_cargo %>"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="descripcion" class="form-label">Descripcion:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="descripcion"
+          placeholder="Ingrese la nacionalidad"
+          name="descripcion"
+          value="<%= cargo.descripcion %>"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Registrar</button>
+      <a href="/cargos" class="btn btn-danger">Cancelar</a>
+    </form>
+  </body>
+</html>

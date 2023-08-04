@@ -60,12 +60,46 @@ const deleteCargo = (req, res) => {
 };
 
 const updateCargo = (req, res) => {
-  const { idCargo } = req.params;
+  const { id } = req.params;
   const { nombre_cargo, descripcion } = req.body;
-  const sql = `UPDATE cargos SET nombre_cargo = '${nombre_cargo}', descripcion = '${descripcion}' WHERE idCargo = ${idCargo}`;
-  db.query(sql, (err) => {
-    if (err) throw err;
-    res.send("Cargo actualizado!");
+
+  const sql = 'UPDATE cargos SET nombre_cargo = ?, descripcion = ? WHERE idCargo = ?';
+  db.query(sql, [nombre_cargo, descripcion, id], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Error al actualizar el cargo' });
+    }
+
+    if (result.affectedRows === 0) {
+      // No se encontró un cargo con el ID proporcionado
+      return res.status(404).json({ success: false, message: 'El cargo no fue encontrado' });
+    }
+
+    // Envía una respuesta de éxito si la actualización fue exitosa
+    return res.redirect('/cargos');
+  });
+}
+
+const getCargoById = (req, res,next) => {
+  const { id } = req.params;
+
+  const sql = 'SELECT * FROM cargos WHERE idCargo = ?';
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Error al obtener el cargo' });
+    }
+
+    if (result.length === 0) {
+      // No se encontró un cargo con el ID proporcionado
+      return res.status(404).json({ success: false, message: 'El cargo no fue encontrado' });
+    }
+
+    // Envía una respuesta de éxito con el cargo obtenido
+    //return res.status(200).json({ success: true, cargo: result[0] });
+    res.locals.cargo = result[0];
+    next();
+    //res.render("cargos", { cargos })
   });
 }
 
@@ -77,4 +111,5 @@ module.exports = {
     createCargo,
     deleteCargo,
     updateCargo,
+    getCargoById
 }
