@@ -92,10 +92,11 @@ app
     res.render("registrarempleado", { cargos });
   })
   .get("/empleados/actualizar/:id", empleadoController.getCargos, empleadoController.getEmpleadoById, (req, res) => {
+    const { id } = req.params;
     const { idCargo } = req.params;
     const cargos = res.locals.cargos;
     const empleado = res.locals.empleado; // Asegúrate de obtener los datos del empleado
-    res.render("actualizarempleado", { idCargo, empleado, cargos });
+    res.render("actualizarempleado", { id, idCargo, empleado, cargos });
   })
   .get("/cargos/actualizar/:id", cargoController.getCargoById, (req, res) => {
     const { id } = req.params;

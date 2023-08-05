@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "babel-node": "babel-node --presets @babel/preset-env",
-    "dev": "nodemon --exec npm run babel-node src/app.js"
+    "dev": "nodemon --exec npm run babel-node src/app.js",
+    "start": "node src/app.js"
   },
   "author": "M4thias2023",
   "license": "ISC",

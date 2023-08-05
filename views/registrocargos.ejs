@@ -4,29 +4,22 @@
   <body>
     <%- include('navbar.ejs') -%>
     <style>
-      body {
-        background-color: #333333;
-      }
-      label {
-        font-size: 20px;
-        font-weight: 600;
-        color: #cecece;
-      }
       input {
         background-color: #cecece;
       }
     </style>
 
-    <h1 class="p-2 text-white">Registrar cargo</h1>
+    <h1 class="p-4 text-white fs-2 fs-md-6" style="font-size: 50px; font-weight: 700; background-color: #333333;">Registrar cargo</h1>
     <form
         action="/cargos/registrar"
-        class="p-2 w-50 m-2"
+        class="p-2 m-2 col-xl-6 col-sm-12"
         method="POST"
         style="border: 2px solid #cecece; border-radius: 10px"
     >
       <div class="mb-3">
         <label for="nombre_empleado" class="form-label">Nombre:</label>
         <input
+          size="3"
           type="text"
           class="form-control"
           id="nombre_empleado"
@@ -44,8 +37,11 @@
           name="descripcion"
         />
       </div>
-      <button type="submit" class="btn btn-primary">Registrar</button>
-      <a href="/cargos" class="btn btn-danger">Cancelar</a>
+      <div class="col-sm-12 d-flex gap-1 col-xl-4">
+        <button type="submit" class="btn btn-primary col-6">Registrar</button>
+        <a href="/cargos" class="btn btn-danger col-6">Cancelar</a>
+      </div>
     </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   </body>
 </html>
