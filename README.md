@@ -29,8 +29,6 @@ GestionEmpleados es una aplicación web creada como práctica para administrar e
 
 1.  Iniciar la aplicación:
     
-    Copy code
-    
     `node src/app.js` 
     
 2.  Acceder a la aplicación en un navegador web en la dirección `http://localhost:3000`.
